@@ -1,0 +1,21 @@
+/* ========================================
+   FOOTER
+   ======================================== */
+.footer {
+  padding:40px 0;
+  border-top:1px solid var(--border-glass);
+  background:var(--bg-secondary);
+}
+.footer-content {
+  display:flex; align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap; gap:16px;
+}
+.footer-copy { font-size:0.85rem; color:var(--text-muted); }
+.footer-copy span { color:var(--accent); }
+.footer-links { display:flex; gap:24px; }
+.footer-links a {
+  font-size:0.85rem; color:var(--text-muted);
+  transition:var(--transition);
+}
+.footer-links a:hover { color:var(--accent); }

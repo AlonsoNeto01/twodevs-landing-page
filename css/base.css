@@ -1,0 +1,98 @@
+/* ========================================
+   TwoDevs Solutions — Base & Design System
+   ======================================== */
+
+/* --- Google Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* --- CSS Variables --- */
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #121218;
+  --bg-card: rgba(255,255,255,0.04);
+  --bg-glass: rgba(255,255,255,0.06);
+  --border-glass: rgba(255,255,255,0.08);
+  --text-primary: #f0f0f5;
+  --text-secondary: #9a9ab0;
+  --text-muted: #5a5a72;
+  --accent: #4ADE80;
+  --accent-dim: rgba(74,222,128,0.15);
+  --accent-glow: 0 0 20px rgba(74,222,128,0.3);
+  --accent-glow-strong: 0 0 40px rgba(74,222,128,0.4);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+  --font: 'Space Grotesk', system-ui, sans-serif;
+  --max-width: 1200px;
+  --header-h: 72px;
+}
+
+/* --- Reset & Base --- */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; scroll-padding-top: var(--header-h); }
+body {
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration:none; color:inherit; }
+ul { list-style:none; }
+img { max-width:100%; display:block; }
+button, input, textarea, select {
+  font-family: inherit; font-size: inherit;
+  border:none; outline:none; background:none; color:inherit;
+}
+
+/* --- Utility --- */
+.container { max-width:var(--max-width); margin:0 auto; padding:0 24px; }
+.section { padding: 100px 0; }
+.section-label {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:0.8rem; font-weight:600; letter-spacing:2px;
+  text-transform:uppercase; color:var(--accent);
+  margin-bottom:16px;
+}
+.section-label::before {
+  content:''; width:24px; height:2px;
+  background:var(--accent); border-radius:2px;
+}
+.section-title {
+  font-size: clamp(1.8rem,4vw,2.6rem);
+  font-weight:700; line-height:1.2;
+  margin-bottom:16px;
+}
+.section-subtitle {
+  font-size:1.05rem; color:var(--text-secondary);
+  max-width:560px;
+}
+.section-header { text-align:center; margin-bottom:60px; }
+.section-header .section-subtitle { margin:0 auto; }
+
+/* --- Buttons --- */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 32px; border-radius:50px;
+  font-weight:600; font-size:0.95rem;
+  cursor:pointer; transition:var(--transition);
+  position:relative; overflow:hidden;
+}
+.btn-primary {
+  background:var(--accent); color:#0a0a0f;
+  box-shadow: var(--accent-glow);
+}
+.btn-primary:hover {
+  box-shadow: var(--accent-glow-strong);
+  transform:translateY(-2px);
+}
+.btn-outline {
+  border:1.5px solid var(--border-glass);
+  color:var(--text-primary); background:var(--bg-glass);
+  backdrop-filter:blur(8px);
+}
+.btn-outline:hover {
+  border-color:var(--accent); color:var(--accent);
+  background:var(--accent-dim);
+}
