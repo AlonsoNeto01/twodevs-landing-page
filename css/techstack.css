@@ -1,0 +1,89 @@
+/* ========================================
+   TECH STACK
+   ======================================== */
+.techstack {
+  padding: 60px 0;
+  position: relative;
+  overflow: hidden;
+}
+.techstack .section-header {
+  margin-bottom: 40px;
+}
+.techstack-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 8px auto 0;
+  line-height: 1.6;
+}
+
+/* Marquee Container */
+.marquee-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: marqueeScroll 35s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Tech Card */
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  cursor: default;
+  flex-shrink: 0;
+}
+.tech-item:hover {
+  background: rgba(74, 222, 128, 0.06);
+  border-color: rgba(74, 222, 128, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+.tech-item img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: grayscale(0.3) brightness(1.1);
+  transition: filter 0.3s ease;
+}
+.tech-item:hover img {
+  filter: grayscale(0) brightness(1.2);
+}
+.tech-item span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+.tech-item:hover span {
+  color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .techstack { padding: 40px 0; }
+  .tech-item { padding: 10px 18px; gap: 10px; }
+  .tech-item img { width: 22px; height: 22px; }
+  .tech-item span { font-size: 0.8rem; }
+  .marquee-track { gap: 16px; }
+}
