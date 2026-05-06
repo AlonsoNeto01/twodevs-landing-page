@@ -108,69 +108,153 @@
 }
 .hero-buttons { display:flex; gap:16px; flex-wrap:wrap; }
 
-/* Tech Metrics Badge */
-.tech-metrics-badge {
-  margin-top: 40px;
-  display: inline-block;
-  background: rgba(10, 10, 15, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(74, 222, 128, 0.15);
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-family: monospace;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  cursor: default;
+/* Tech Metrics Panel */
+.tech-metrics {
+  margin-top: 48px;
+  background: rgba(10, 10, 18, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(74, 222, 128, 0.1);
+  border-radius: 14px;
+  padding: 14px 20px 18px;
+  max-width: 460px;
   opacity: 0;
-  animation: fadeInMetrics 1s ease 1s forwards;
-}
-@keyframes fadeInMetrics {
-  to { opacity: 1; }
-}
-.tech-metrics-badge:hover {
-  border-color: rgba(74, 222, 128, 0.4);
-  background: rgba(15, 20, 25, 0.8);
-  box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);
-}
-.tech-metrics-badge .metrics-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.metric-ping {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--accent);
+  animation: metricsReveal 0.8s ease 1.2s forwards;
   position: relative;
+  overflow: hidden;
 }
-.metric-ping::after {
+.tech-metrics::before {
   content: '';
   position: absolute;
-  top: -4px;
-  left: -4px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 1px solid var(--accent);
-  animation: pingMetric 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  top: -1px;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.5), transparent);
 }
-@keyframes pingMetric {
-  75%, 100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-.tech-metrics-badge .value {
-  color: var(--accent);
-  font-weight: 600;
-}
-.tech-metrics-badge .divider {
-  color: rgba(255, 255, 255, 0.2);
+@keyframes metricsReveal {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* Header */
+.metrics-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(74, 222, 128, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: livePulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--accent);
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.metrics-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Cards Grid */
+.metrics-cards {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.metric-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 4px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+.metric-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+.metric-divider {
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+/* Icon */
+.metric-icon {
+  width: 18px;
+  height: 18px;
+  stroke: var(--text-muted);
+  transition: stroke 0.3s ease;
+}
+.metric-card:hover .metric-icon {
+  stroke: var(--accent);
+}
+
+/* Value */
+.metric-data {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+.metric-value {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+.metric-value.counting {
+  color: var(--accent);
+}
+.metric-unit {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Label */
+.metric-name {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .tech-metrics {
+    padding: 12px 14px 14px;
+    max-width: 100%;
+  }
+  .metric-value {
+    font-size: 1.2rem;
+  }
+  .metrics-header {
+    margin-bottom: 10px;
+  }
+}
