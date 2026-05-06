@@ -40,23 +40,115 @@
   transform:translateY(-2px);
 }
 
-/* Contact Form */
-.contact-form {
+/* Funnel Form */
+.funnel-container {
   background:var(--bg-glass);
   border:1px solid var(--border-glass);
   border-radius:var(--radius-lg);
   padding:40px;
   backdrop-filter:blur(12px);
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
 }
-.form-group { margin-bottom:20px; }
+.funnel-progress {
+  margin-bottom: 24px;
+}
+.progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  width: 25%;
+  transition: width 0.4s ease;
+}
+.progress-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.funnel-step {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  animation: fadeInStep 0.4s ease forwards;
+}
+.funnel-step.active {
+  display: flex;
+}
+@keyframes fadeInStep {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.funnel-step h3 {
+  font-size: 1.3rem;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+}
+.funnel-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.funnel-option {
+  cursor: pointer;
+}
+.funnel-option input[type="radio"] {
+  display: none;
+}
+.option-content {
+  display: block;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+.funnel-option:hover .option-content {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+.funnel-option input[type="radio"]:checked + .option-content {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+}
+.funnel-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+.funnel-actions.split {
+  justify-content: space-between;
+}
+.funnel-actions .btn {
+  padding: 12px 24px;
+}
+.funnel-actions .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Fallback for inputs in step 4 */
 .form-group label {
   display:block; font-size:0.85rem;
   font-weight:500; color:var(--text-secondary);
   margin-bottom:8px;
 }
-.form-group input,
-.form-group select,
-.form-group textarea {
+.form-group input {
   width:100%; padding:14px 18px;
   background:rgba(255,255,255,0.04);
   border:1px solid var(--border-glass);
@@ -65,12 +157,9 @@
   font-size:0.95rem;
   transition:var(--transition);
 }
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
+.form-group input:focus {
   border-color:var(--accent);
   box-shadow:0 0 0 3px var(--accent-dim);
+  outline: none;
 }
-.form-group textarea { resize:vertical; min-height:120px; }
-.form-group select option { background:var(--bg-secondary); }
-.contact-form .btn { width:100%; }
+

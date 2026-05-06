@@ -77,27 +77,122 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* --- Contact form handling --- */
-  const form = document.getElementById('contactForm');
-  if (form) {
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const btn = form.querySelector('button[type="submit"]');
-      const originalText = btn.textContent;
-      btn.textContent = 'Enviando...';
-      btn.disabled = true;
+  /* --- Funnel Handling --- */
+  const funnelContainer = document.getElementById('funnelContainer');
+  if (funnelContainer) {
+    let currentStep = 1;
+    const totalSteps = 4;
+    const formData = {
+      objective: '',
+      stage: '',
+      urgency: '',
+      name: ''
+    };
 
-      setTimeout(() => {
-        btn.textContent = '✓ Mensagem Enviada!';
-        btn.style.background = '#25D366';
-        form.reset();
-        setTimeout(() => {
-          btn.textContent = originalText;
-          btn.style.background = '';
-          btn.disabled = false;
-        }, 3000);
-      }, 1500);
+    const updateUI = () => {
+      // Hide all steps
+      document.querySelectorAll('.funnel-step').forEach(step => {
+        step.classList.remove('active');
+      });
+      // Show current step
+      document.getElementById(`step${currentStep}`).classList.add('active');
+
+      // Update Progress
+      const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
+      document.querySelector('#progressBar::after') // Not directly updatable via style for pseudo, so we use a trick or direct style to a child.
+      // Since it's a pseudo element in CSS, let's just create an inline style tag for the dynamic width or manipulate a real element.
+      // Wait, let's select the pseudo-element's parent and set a CSS variable.
+      document.getElementById('progressBar').style.setProperty('--progress', `${progressPercent}%`);
+      document.getElementById('progressText').textContent = `Passo ${currentStep} de ${totalSteps}`;
+      
+      checkStepValidity();
+    };
+
+    // Inject CSS rule for progress bar dynamically
+    const style = document.createElement('style');
+    style.innerHTML = `.progress-bar::after { width: var(--progress, 25%); }`;
+    document.head.appendChild(style);
+
+    const checkStepValidity = () => {
+      const stepEl = document.getElementById(`step${currentStep}`);
+      const nextBtn = stepEl.querySelector('.btn-next, .btn-finish');
+      if (!nextBtn) return;
+
+      if (currentStep === 1) {
+        nextBtn.disabled = !document.querySelector('input[name="objective"]:checked');
+      } else if (currentStep === 2) {
+        nextBtn.disabled = !document.querySelector('input[name="stage"]:checked');
+      } else if (currentStep === 3) {
+        nextBtn.disabled = !document.querySelector('input[name="urgency"]:checked');
+      } else if (currentStep === 4) {
+        const nameVal = document.getElementById('funnelName').value.trim();
+        nextBtn.disabled = nameVal.length < 3;
+      }
+    };
+
+    // Listeners for radio buttons to auto-advance or enable button
+    document.querySelectorAll('.funnel-step input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        checkStepValidity();
+        // Optional: auto-advance on radio select
+        // setTimeout(() => document.querySelector(`#step${currentStep} .btn-next`).click(), 300);
+      });
     });
+
+    // Listener for text input
+    const nameInput = document.getElementById('funnelName');
+    if (nameInput) {
+      nameInput.addEventListener('input', checkStepValidity);
+    }
+
+    // Navigation buttons
+    document.querySelectorAll('.btn-next').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentStep < totalSteps) {
+          // Save data
+          if (currentStep === 1) formData.objective = document.querySelector('input[name="objective"]:checked').value;
+          if (currentStep === 2) formData.stage = document.querySelector('input[name="stage"]:checked').value;
+          if (currentStep === 3) formData.urgency = document.querySelector('input[name="urgency"]:checked').value;
+          
+          currentStep++;
+          updateUI();
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-prev').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (currentStep > 1) {
+          currentStep--;
+          updateUI();
+        }
+      });
+    });
+
+    // Finish funnel
+    const btnFinish = document.getElementById('btnFinishFunnel');
+    if (btnFinish) {
+      btnFinish.addEventListener('click', () => {
+        formData.name = document.getElementById('funnelName').value.trim();
+        
+        btnFinish.textContent = 'Redirecionando...';
+        btnFinish.disabled = true;
+
+        const text = `Olá! Meu nome é *${formData.name}*. Conheci a TwoDevs e gostaria de falar sobre um projeto.\n\n🎯 *Objetivo:* ${formData.objective}\n📊 *Estágio:* ${formData.stage}\n⏱️ *Urgência:* ${formData.urgency}\n\nPodemos conversar?`;
+        
+        const wpUrl = `https://wa.me/559391312913?text=${encodeURIComponent(text)}`;
+        
+        setTimeout(() => {
+          window.open(wpUrl, '_blank');
+          btnFinish.textContent = 'Falar com o Gestor';
+          btnFinish.disabled = false;
+          // reset form optionally
+        }, 800);
+      });
+    }
+
+    // Init UI
+    updateUI();
   }
 
   /* --- Active nav link highlight on scroll --- */

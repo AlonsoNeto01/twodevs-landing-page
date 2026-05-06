@@ -275,12 +275,12 @@
               <img src="assets/whatsapp-icon.png" alt="WhatsApp">
             </div>
             <div>
-              <span>WhatsApp</span>
-              <strong>(93) 99153-0375</strong>
+              <span>WhatsApp (Gestor de Projetos)</span>
+              <strong>(93) 9131-2913</strong>
             </div>
           </div>
 
-          <a href="https://wa.me/5593991530375?text=Olá!%20Gostaria%20de%20um%20orçamento." class="btn whatsapp-btn"
+          <a href="https://wa.me/559391312913?text=Olá!%20Gostaria%20de%20falar%20com%20o%20Gestor%20de%20Projetos." class="btn whatsapp-btn"
             target="_blank" rel="noopener">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path
@@ -290,32 +290,100 @@
           </a>
         </div>
 
-        <form class="contact-form reveal" id="contactForm">
-          <div class="form-group">
-            <label for="name">Nome Completo</label>
-            <input type="text" id="name" name="name" placeholder="Seu nome" required>
+        <div class="funnel-container reveal" id="funnelContainer">
+          
+          <!-- Progresso -->
+          <div class="funnel-progress">
+            <div class="progress-bar" id="progressBar"></div>
+            <span class="progress-text" id="progressText">Passo 1 de 4</span>
           </div>
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+
+          <!-- Passo 1 -->
+          <div class="funnel-step active" id="step1">
+            <h3>Qual o seu principal objetivo hoje?</h3>
+            <div class="funnel-options">
+              <label class="funnel-option">
+                <input type="radio" name="objective" value="Sistema SaaS / Web App">
+                <span class="option-content">🚀 Criar um Sistema SaaS ou Web App</span>
+              </label>
+              <label class="funnel-option">
+                <input type="radio" name="objective" value="Site Institucional / Landing Page">
+                <span class="option-content">🌐 Site Institucional / Landing Page</span>
+              </label>
+              <label class="funnel-option">
+                <input type="radio" name="objective" value="Cibersegurança e Infra">
+                <span class="option-content">🛡️ Blindar minha Infraestrutura (Segurança)</span>
+              </label>
+              <label class="funnel-option">
+                <input type="radio" name="objective" value="Outro objetivo">
+                <span class="option-content">💡 Outro (explicar depois)</span>
+              </label>
+            </div>
+            <div class="funnel-actions">
+              <button class="btn btn-primary btn-next" type="button" disabled>Próximo ➔</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="service">Serviço Desejado</label>
-            <select id="service" name="service" required>
-              <option value="" disabled selected>Selecione um serviço</option>
-              <option value="software">Fábrica de Software & Web</option>
-              <option value="saas">Sistemas SaaS & Automação</option>
-              <option value="security">Infraestrutura & Cibersegurança</option>
-              <option value="other">Outro</option>
-            </select>
+
+          <!-- Passo 2 -->
+          <div class="funnel-step" id="step2">
+            <h3>Em que estágio o projeto está?</h3>
+            <div class="funnel-options">
+              <label class="funnel-option">
+                <input type="radio" name="stage" value="Apenas uma ideia">
+                <span class="option-content">🧠 Tenho apenas a ideia inicial</span>
+              </label>
+              <label class="funnel-option">
+                <input type="radio" name="stage" value="Já tenho escopo / design">
+                <span class="option-content">📝 Já tenho escopo definido ou design pronto</span>
+              </label>
+              <label class="funnel-option">
+                <input type="radio" name="stage" value="Refazer projeto existente">
+                <span class="option-content">🔄 Preciso refazer / melhorar um projeto que já existe</span>
+              </label>
+            </div>
+            <div class="funnel-actions split">
+              <button class="btn btn-outline btn-prev" type="button">⬅ Voltar</button>
+              <button class="btn btn-primary btn-next" type="button" disabled>Próximo ➔</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="message">Mensagem</label>
-            <textarea id="message" name="message" placeholder="Descreva seu projeto ou necessidade..."
-              required></textarea>
+
+          <!-- Passo 3 -->
+          <div class="funnel-step" id="step3">
+            <h3>Qual a expectativa de urgência?</h3>
+            <div class="funnel-options">
+              <label class="funnel-option">
+                <input type="radio" name="urgency" value="Imediata (Para ontem)">
+                <span class="option-content">🔥 Imediata (Para ontem)</span>
+              </label>
+              <label class="funnel-option">
+                <input type="radio" name="urgency" value="Próximos 30 dias">
+                <span class="option-content">⏳ Nos próximos 30 dias</span>
+              </label>
+              <label class="funnel-option">
+                <input type="radio" name="urgency" value="Estou apenas planejando">
+                <span class="option-content">📅 Estou apenas sondando / planejando</span>
+              </label>
+            </div>
+            <div class="funnel-actions split">
+              <button class="btn btn-outline btn-prev" type="button">⬅ Voltar</button>
+              <button class="btn btn-primary btn-next" type="button" disabled>Próximo ➔</button>
+            </div>
           </div>
-          <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
-        </form>
+
+          <!-- Passo 4 -->
+          <div class="funnel-step" id="step4">
+            <h3>Como podemos te chamar?</h3>
+            <div class="form-group">
+              <label for="funnelName">Seu Nome ou Empresa</label>
+              <input type="text" id="funnelName" placeholder="Digite seu nome..." autocomplete="off">
+            </div>
+            <div class="funnel-actions split" style="margin-top:24px;">
+              <button class="btn btn-outline btn-prev" type="button">⬅ Voltar</button>
+              <button class="btn btn-primary btn-finish" type="button" id="btnFinishFunnel" disabled>Falar com o Gestor</button>
+            </div>
+          </div>
+
+        </div>
 
       </div>
     </div>
