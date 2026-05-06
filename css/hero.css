@@ -204,10 +204,16 @@
 
 /* Icon */
 .metric-icon {
-  width: 18px;
-  height: 18px;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px;
+  max-width: 18px;
+  min-height: 18px;
+  max-height: 18px;
+  flex-shrink: 0;
   stroke: var(--text-muted);
   transition: stroke 0.3s ease;
+  display: block;
 }
 .metric-card:hover .metric-icon {
   stroke: var(--accent);
