@@ -82,117 +82,109 @@ document.addEventListener('DOMContentLoaded', () => {
   if (funnelContainer) {
     let currentStep = 1;
     const totalSteps = 4;
-    const formData = {
-      objective: '',
-      stage: '',
-      urgency: '',
-      name: ''
-    };
+    const formData = { objective: '', stage: '', urgency: '', name: '' };
 
-    const updateUI = () => {
-      // Hide all steps
-      document.querySelectorAll('.funnel-step').forEach(step => {
-        step.classList.remove('active');
-      });
-      // Show current step
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+
+    const goToStep = (step) => {
+      currentStep = step;
+
+      // Toggle active step
+      funnelContainer.querySelectorAll('.funnel-step').forEach(s => s.classList.remove('active'));
       document.getElementById(`step${currentStep}`).classList.add('active');
 
-      // Update Progress
-      const progressPercent = ((currentStep - 1) / (totalSteps - 1)) * 100;
-      document.querySelector('#progressBar::after') // Not directly updatable via style for pseudo, so we use a trick or direct style to a child.
-      // Since it's a pseudo element in CSS, let's just create an inline style tag for the dynamic width or manipulate a real element.
-      // Wait, let's select the pseudo-element's parent and set a CSS variable.
-      document.getElementById('progressBar').style.setProperty('--progress', `${progressPercent}%`);
-      document.getElementById('progressText').textContent = `Passo ${currentStep} de ${totalSteps}`;
-      
-      checkStepValidity();
-    };
+      // Update progress bar
+      const pct = ((currentStep) / totalSteps) * 100;
+      progressFill.style.width = pct + '%';
+      progressText.textContent = `Passo ${currentStep} de ${totalSteps}`;
 
-    // Inject CSS rule for progress bar dynamically
-    const style = document.createElement('style');
-    style.innerHTML = `.progress-bar::after { width: var(--progress, 25%); }`;
-    document.head.appendChild(style);
+      // Validate current step button
+      validateStep();
 
-    const checkStepValidity = () => {
-      const stepEl = document.getElementById(`step${currentStep}`);
-      const nextBtn = stepEl.querySelector('.btn-next, .btn-finish');
-      if (!nextBtn) return;
-
-      if (currentStep === 1) {
-        nextBtn.disabled = !document.querySelector('input[name="objective"]:checked');
-      } else if (currentStep === 2) {
-        nextBtn.disabled = !document.querySelector('input[name="stage"]:checked');
-      } else if (currentStep === 3) {
-        nextBtn.disabled = !document.querySelector('input[name="urgency"]:checked');
-      } else if (currentStep === 4) {
-        const nameVal = document.getElementById('funnelName').value.trim();
-        nextBtn.disabled = nameVal.length < 3;
+      // Focus input on step 4
+      if (currentStep === 4) {
+        setTimeout(() => document.getElementById('funnelName').focus(), 350);
       }
     };
 
-    // Listeners for radio buttons to auto-advance or enable button
-    document.querySelectorAll('.funnel-step input[type="radio"]').forEach(radio => {
-      radio.addEventListener('change', () => {
-        checkStepValidity();
-        // Optional: auto-advance on radio select
-        // setTimeout(() => document.querySelector(`#step${currentStep} .btn-next`).click(), 300);
-      });
+    const validateStep = () => {
+      const stepEl = document.getElementById(`step${currentStep}`);
+      const btn = stepEl.querySelector('.btn-next, .btn-finish');
+      if (!btn) return;
+
+      if (currentStep === 4) {
+        btn.disabled = document.getElementById('funnelName').value.trim().length < 2;
+      } else {
+        const fieldNames = ['objective', 'stage', 'urgency'];
+        btn.disabled = !document.querySelector(`input[name="${fieldNames[currentStep - 1]}"]:checked`);
+      }
+    };
+
+    // Radio change → enable next
+    funnelContainer.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', validateStep);
     });
 
-    // Listener for text input
+    // Name input → enable finish
     const nameInput = document.getElementById('funnelName');
     if (nameInput) {
-      nameInput.addEventListener('input', checkStepValidity);
+      nameInput.addEventListener('input', validateStep);
+      nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !document.getElementById('btnFinishFunnel').disabled) {
+          document.getElementById('btnFinishFunnel').click();
+        }
+      });
     }
 
-    // Navigation buttons
-    document.querySelectorAll('.btn-next').forEach(btn => {
+    // Next buttons
+    funnelContainer.querySelectorAll('.btn-next').forEach(btn => {
       btn.addEventListener('click', () => {
-        if (currentStep < totalSteps) {
-          // Save data
-          if (currentStep === 1) formData.objective = document.querySelector('input[name="objective"]:checked').value;
-          if (currentStep === 2) formData.stage = document.querySelector('input[name="stage"]:checked').value;
-          if (currentStep === 3) formData.urgency = document.querySelector('input[name="urgency"]:checked').value;
-          
-          currentStep++;
-          updateUI();
-        }
+        const fields = ['objective', 'stage', 'urgency'];
+        const checked = document.querySelector(`input[name="${fields[currentStep - 1]}"]:checked`);
+        if (checked) formData[fields[currentStep - 1]] = checked.value;
+        goToStep(currentStep + 1);
       });
     });
 
-    document.querySelectorAll('.btn-prev').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (currentStep > 1) {
-          currentStep--;
-          updateUI();
-        }
-      });
+    // Prev buttons
+    funnelContainer.querySelectorAll('.btn-prev').forEach(btn => {
+      btn.addEventListener('click', () => goToStep(currentStep - 1));
     });
 
-    // Finish funnel
+    // Finish → WhatsApp
     const btnFinish = document.getElementById('btnFinishFunnel');
     if (btnFinish) {
+      const originalHTML = btnFinish.innerHTML;
       btnFinish.addEventListener('click', () => {
         formData.name = document.getElementById('funnelName').value.trim();
-        
-        btnFinish.textContent = 'Redirecionando...';
+
+        btnFinish.innerHTML = 'Abrindo WhatsApp...';
         btnFinish.disabled = true;
 
-        const text = `Olá! Meu nome é *${formData.name}*. Conheci a TwoDevs e gostaria de falar sobre um projeto.\n\n🎯 *Objetivo:* ${formData.objective}\n📊 *Estágio:* ${formData.stage}\n⏱️ *Urgência:* ${formData.urgency}\n\nPodemos conversar?`;
-        
-        const wpUrl = `https://wa.me/559391312913?text=${encodeURIComponent(text)}`;
-        
+        const msg = [
+          `Olá! Meu nome é *${formData.name}*.`,
+          `Conheci a TwoDevs e gostaria de falar sobre um projeto.`,
+          ``,
+          `🎯 *Objetivo:* ${formData.objective}`,
+          `📊 *Estágio:* ${formData.stage}`,
+          `⏱️ *Urgência:* ${formData.urgency}`,
+          ``,
+          `Podemos conversar?`
+        ].join('\n');
+
+        const wpUrl = `https://wa.me/559391312913?text=${encodeURIComponent(msg)}`;
+
         setTimeout(() => {
           window.open(wpUrl, '_blank');
-          btnFinish.textContent = 'Falar com o Gestor';
+          btnFinish.innerHTML = originalHTML;
           btnFinish.disabled = false;
-          // reset form optionally
-        }, 800);
+        }, 600);
       });
     }
 
-    // Init UI
-    updateUI();
+    // Init
+    goToStep(1);
   }
 
   /* --- Active nav link highlight on scroll --- */

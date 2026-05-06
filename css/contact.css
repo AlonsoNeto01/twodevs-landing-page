@@ -2,164 +2,325 @@
    CONTACT
    ======================================== */
 .contact-wrapper {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px; align-items:start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
 }
 .contact-info h2 {
-  font-size:clamp(1.6rem,3.5vw,2.2rem);
-  font-weight:700; margin-bottom:16px;
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 16px;
 }
 .contact-info > p {
-  color:var(--text-secondary); margin-bottom:32px;
-  line-height:1.7;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.7;
 }
 .contact-detail {
-  display:flex; align-items:center; gap:16px;
-  padding:16px 0;
-  border-bottom:1px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-glass);
 }
 .contact-detail-icon {
-  width:44px; height:44px; border-radius:12px;
-  background:var(--accent-dim);
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.1rem; flex-shrink:0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--accent-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 .contact-detail-icon img {
-  width:24px; height:24px; object-fit:contain;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
-.contact-detail span { font-size:0.85rem; color:var(--text-muted); display:block; }
-.contact-detail strong { font-size:0.95rem; color:var(--text-primary); }
-.whatsapp-btn {
-  margin-top:28px;
-  background:#25D366; color:#fff;
-  box-shadow:0 0 20px rgba(37,211,102,0.3);
-}
-.whatsapp-btn:hover {
-  box-shadow:0 0 40px rgba(37,211,102,0.4);
-  transform:translateY(-2px);
-}
-
-/* Funnel Form */
-.funnel-container {
-  background:var(--bg-glass);
-  border:1px solid var(--border-glass);
-  border-radius:var(--radius-lg);
-  padding:40px;
-  backdrop-filter:blur(12px);
-  position: relative;
-  overflow: hidden;
-  min-height: 420px;
-  display: flex;
-  flex-direction: column;
-}
-.funnel-progress {
-  margin-bottom: 24px;
-}
-.progress-bar {
-  height: 4px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 4px;
-  margin-bottom: 8px;
-  position: relative;
-}
-.progress-bar::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; height: 100%;
-  background: var(--accent);
-  border-radius: 4px;
-  width: 25%;
-  transition: width 0.4s ease;
-}
-.progress-text {
-  font-size: 0.8rem;
+.contact-detail span {
+  font-size: 0.85rem;
   color: var(--text-muted);
+  display: block;
 }
-.funnel-step {
-  display: none;
-  flex: 1;
-  flex-direction: column;
-  animation: fadeInStep 0.4s ease forwards;
-}
-.funnel-step.active {
-  display: flex;
-}
-@keyframes fadeInStep {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-.funnel-step h3 {
-  font-size: 1.3rem;
-  margin-bottom: 24px;
+.contact-detail strong {
+  font-size: 0.95rem;
   color: var(--text-primary);
 }
+.whatsapp-btn {
+  margin-top: 28px;
+  background: #25D366;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.3);
+}
+.whatsapp-btn:hover {
+  box-shadow: 0 0 40px rgba(37, 211, 102, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   FUNNEL — Qualificação de Lead
+   ======================================== */
+.funnel-container {
+  background: rgba(12, 12, 20, 0.85);
+  border: 1px solid rgba(74, 222, 128, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  backdrop-filter: blur(16px);
+  position: relative;
+  overflow: hidden;
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Subtle glowing border accent */
+.funnel-container::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.6;
+}
+
+/* --- Progress Bar --- */
+.funnel-progress {
+  margin-bottom: 28px;
+}
+.progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 3px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #06b6d4);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+}
+.progress-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* --- Steps --- */
+.funnel-step {
+  display: none !important;
+  flex-direction: column;
+  flex: 1;
+}
+.funnel-step.active {
+  display: flex !important;
+  animation: stepSlideIn 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes stepSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.funnel-step h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.funnel-step .step-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* --- Option Cards --- */
 .funnel-options {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 32px;
+  gap: 10px;
+  margin-bottom: 28px;
 }
 .funnel-option {
+  display: block;
   cursor: pointer;
+  position: relative;
 }
 .funnel-option input[type="radio"] {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 .option-content {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   padding: 16px 20px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   color: var(--text-secondary);
-  transition: all 0.2s ease;
   font-size: 0.95rem;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
-.funnel-option:hover .option-content {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(74, 222, 128, 0.3);
+.option-content .option-icon {
+  font-size: 1.3rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
 }
-.funnel-option input[type="radio"]:checked + .option-content {
-  background: rgba(74, 222, 128, 0.1);
-  border-color: var(--accent);
-  color: #fff;
+.option-content .option-text {
+  flex: 1;
   font-weight: 500;
 }
+
+/* Hover */
+.funnel-option:hover .option-content {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(74, 222, 128, 0.25);
+  transform: translateX(4px);
+}
+
+/* Selected */
+.funnel-option input[type="radio"]:checked + .option-content {
+  background: rgba(74, 222, 128, 0.08);
+  border-color: var(--accent);
+  color: var(--text-primary);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.1);
+}
+.funnel-option input[type="radio"]:checked + .option-content .option-icon {
+  background: rgba(74, 222, 128, 0.2);
+}
+.funnel-option input[type="radio"]:checked + .option-content::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* --- Actions / Nav Buttons --- */
 .funnel-actions {
   margin-top: auto;
+  padding-top: 8px;
   display: flex;
   justify-content: flex-end;
+  gap: 12px;
 }
 .funnel-actions.split {
   justify-content: space-between;
 }
 .funnel-actions .btn {
-  padding: 12px 24px;
+  padding: 12px 28px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+}
+.funnel-actions .btn-prev {
+  padding: 12px 20px;
+  font-size: 0.85rem;
 }
 .funnel-actions .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.35;
   cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
-/* Fallback for inputs in step 4 */
-.form-group label {
-  display:block; font-size:0.85rem;
-  font-weight:500; color:var(--text-secondary);
-  margin-bottom:8px;
+/* WhatsApp finish button */
+.btn-finish {
+  background: #25D366 !important;
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.3) !important;
+  gap: 8px;
 }
-.form-group input {
-  width:100%; padding:14px 18px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--border-glass);
-  border-radius:var(--radius);
-  color:var(--text-primary);
-  font-size:0.95rem;
-  transition:var(--transition);
+.btn-finish:hover:not(:disabled) {
+  box-shadow: 0 0 30px rgba(37, 211, 102, 0.5) !important;
 }
-.form-group input:focus {
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px var(--accent-dim);
+.btn-finish svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* --- Step 4 Input --- */
+.funnel-step .form-group {
+  margin-bottom: 0;
+}
+.funnel-step .form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.funnel-step .form-group input {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+.funnel-step .form-group input::placeholder {
+  color: var(--text-muted);
+}
+.funnel-step .form-group input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
   outline: none;
+  background: rgba(255, 255, 255, 0.06);
 }
 
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .funnel-container {
+    padding: 28px 20px;
+    min-height: 400px;
+  }
+  .funnel-step h3 {
+    font-size: 1.15rem;
+  }
+  .option-content {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+  .funnel-actions .btn {
+    padding: 11px 20px;
+    font-size: 0.85rem;
+  }
+}

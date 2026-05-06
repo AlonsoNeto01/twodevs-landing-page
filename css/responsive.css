@@ -14,7 +14,7 @@
   .services-grid { grid-template-columns:1fr; }
   .portfolio-grid { grid-template-columns:1fr; }
   .section { padding:70px 0; }
-  .contact-form { padding:28px; }
+  .funnel-container { padding:28px 20px; }
 }
 @media(max-width:480px) {
   .container { padding:0 16px; }
