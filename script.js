@@ -115,4 +115,35 @@ document.addEventListener('DOMContentLoaded', () => {
         ? 'var(--accent)' : '';
     });
   }, { passive: true });
+
+  /* --- Tech Metrics Live Update Simulation --- */
+  const ttfbEl = document.querySelector('#metric-ttfb .value');
+  const lhEl = document.querySelector('#metric-lh .value');
+  const psEl = document.querySelector('#metric-ps .value');
+
+  if (ttfbEl && lhEl && psEl) {
+    // Simulating an API call to a /meta endpoint
+    const fetchLiveMetrics = () => {
+      // Fake network latency
+      setTimeout(() => {
+        // Generating plausible high-performance metrics
+        const baseTtfb = 110 + Math.floor(Math.random() * 30); // 110ms to 140ms
+        
+        ttfbEl.textContent = baseTtfb;
+        lhEl.textContent = '98';
+        psEl.textContent = '97';
+
+        // Minor fluctuations every few seconds to look "live"
+        setInterval(() => {
+          const fluctuate = Math.floor(Math.random() * 15) - 5; // -5 to +10
+          ttfbEl.textContent = baseTtfb + fluctuate;
+        }, 3500);
+
+      }, 800);
+    };
+
+    // Initial fetch
+    fetchLiveMetrics();
+  }
+
 });
