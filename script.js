@@ -61,20 +61,96 @@ document.addEventListener('DOMContentLoaded', () => {
     revealObserver.observe(el);
   });
 
-  /* --- Generate floating particles --- */
-  const particlesContainer = document.getElementById('particles');
-  if (particlesContainer) {
-    for (let i = 0; i < 30; i++) {
-      const p = document.createElement('div');
-      p.classList.add('particle');
-      p.style.left = Math.random() * 100 + '%';
-      p.style.top  = Math.random() * 100 + '%';
-      p.style.animationDuration = (4 + Math.random() * 6) + 's';
-      p.style.animationDelay   = (Math.random() * 5) + 's';
-      p.style.width  = (2 + Math.random() * 3) + 'px';
-      p.style.height = p.style.width;
-      particlesContainer.appendChild(p);
+  /* --- Mouse Spotlight & Ambient Organic Particles --- */
+  const spotlight = document.getElementById('mouseSpotlight');
+  if (spotlight) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let currentX = mouseX;
+    let currentY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }, { passive: true });
+
+    const animateSpotlight = () => {
+      currentX += (mouseX - currentX) * 0.08;
+      currentY += (mouseY - currentY) * 0.08;
+      spotlight.style.left = `${currentX}px`;
+      spotlight.style.top = `${currentY}px`;
+      requestAnimationFrame(animateSpotlight);
+    };
+    animateSpotlight();
+  }
+
+  /* --- Ambient Organic Connection Canvas --- */
+  const canvas = document.getElementById('ambientCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }, { passive: true });
+
+    // Floating nodes (human/tech connection network)
+    const nodeCount = Math.min(Math.floor(window.innerWidth / 35), 35);
+    const nodes = [];
+
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 2 + 1,
+        alpha: Math.random() * 0.4 + 0.2
+      });
     }
+
+    const drawNodes = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Connect near nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const n1 = nodes[i];
+        n1.x += n1.vx;
+        n1.y += n1.vy;
+
+        if (n1.x < 0 || n1.x > width) n1.vx *= -1;
+        if (n1.y < 0 || n1.y > height) n1.vy *= -1;
+
+        // Draw node
+        ctx.beginPath();
+        ctx.arc(n1.x, n1.y, n1.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(74, 222, 128, ${n1.alpha})`;
+        ctx.fill();
+
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n2 = nodes[j];
+          const dx = n1.x - n2.x;
+          const dy = n1.y - n2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 140) {
+            const lineAlpha = (1 - dist / 140) * 0.15;
+            ctx.beginPath();
+            ctx.moveTo(n1.x, n1.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.strokeStyle = `rgba(74, 222, 128, ${lineAlpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(drawNodes);
+    };
+
+    drawNodes();
   }
 
   /* --- Funnel Handling --- */
@@ -257,4 +333,217 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1500);
   }
 
+  /* --- Portfolio Case Study Modal Data & Controller --- */
+  const projectsData = {
+    tamires: {
+      id: 'tamires',
+      title: 'Dra. Tamires Martins — Fisioterapia Especializada',
+      category: 'Web / Saúde & Alta Conversão',
+      tagline: 'Plataforma web profissional desenvolvida para posicionamento médico de autoridade, esclarecimento de especialidades clínicas e conversão direta em agendamentos.',
+      url: 'https://tm-fisioterapeuta.netlify.app/',
+      image: 'assets/portfolio-tamires.png?v=2',
+      imageFit: 'contain',
+      imageBg: '#ffffff',
+      challenge: 'A profissional necessitava de uma presença online de alto padrão que transmitisse credibilidade imediata, apresentasse com clareza seus tratamentos fisioterapêuticos e simplificasse o funil de agendamento de consultas pelos pacientes.',
+      solution: 'Desenvolvemos uma plataforma ultrarrápida com design limpo e acolhedor (Human-Centered UI), arquitetura de informação otimizada para SEO local em Oriximiná/PA e botões de agendamento inteligente diretamente integrados ao canal de atendimento.',
+      features: [
+        { title: 'Agendamento Direto', desc: 'Integração ágil com WhatsApp para marcação de consultas sem fricção.' },
+        { title: 'Apresentação de Especialidades', desc: 'Cards dinâmicos com tratamentos, métodos e público-alvo.' },
+        { title: 'Design Responsivo & Acessível', desc: 'Interface fluida para qualquer smartphone, tablet ou desktop.' },
+        { title: 'Otimização de Performance & SEO', desc: 'Pontuação Lighthouse máxima para carregamento instantâneo.' }
+      ],
+      techStack: ['HTML5 Semântico', 'CSS3 Moderno', 'JavaScript ES6+', 'Netlify Edge CDN', 'Responsive UI/UX', 'SEO Optimization']
+    },
+    lanches: {
+      id: 'lanches',
+      title: 'SaaS Lanches ASL — Gestão Gastronômica & Delivery',
+      category: 'SaaS / Delivery & Gestão Empresarial',
+      tagline: 'Sistema SaaS completo para estabelecimentos gastronômicos com cardápio digital interativo via QR Code, painel KDS de cozinha em tempo real e controle de caixa.',
+      url: 'https://sistema-saa-s-lanches.vercel.app/',
+      image: 'assets/portfolio-lanches.png?v=2',
+      imageFit: 'cover',
+      imageBg: '#0f0f15',
+      challenge: 'Lanchonetes e restaurantes enfrentavam lentidão em pedidos, perda de vendas por falta de cardápio digital atualizado e descontrole no fechamento financeiro diário e fluxo de entregas.',
+      solution: 'Projetamos uma plataforma SaaS moderna e modular com arquitetura em nuvem escalável. O cliente acessa o cardápio interativo e os pedidos caem instantaneamente na tela da cozinha com cálculo de taxa de entrega e relatórios gerenciais automáticos.',
+      features: [
+        { title: 'Cardápio Digital Interativo', desc: 'Catálogo de itens com fotos, adicionais, cálculo de total e QR Code.' },
+        { title: 'Painel KDS de Pedidos Ao Vivo', desc: 'Recepção e alteração de status de pedidos em tempo real pela cozinha.' },
+        { title: 'Controle de Caixa & Financeiro', desc: 'Métricas diárias de faturamento, ticket médio e produtos mais vendidos.' },
+        { title: 'Impressão & WhatsApp Auto', desc: 'Geração de comprovantes para impressoras térmicas e envio via WhatsApp.' }
+      ],
+      techStack: ['Next.js', 'React', 'Node.js', 'PostgreSQL', 'TailwindCSS', 'Serverless APIs', 'Vercel Cloud']
+    },
+    imperium: {
+      id: 'imperium',
+      title: 'Imperium Fitness — Portal Institucional & Planos',
+      category: 'Web / Corporativo & Setor Fitness',
+      tagline: 'Portal institucional imersivo com alta performance visual para fortalecer a marca e acelerar novas matrículas em academia e treinamento funcional.',
+      url: 'https://imperiumfitness.net.br/',
+      image: 'assets/portfolio-imperium.png?v=2',
+      imageFit: 'contain',
+      imageBg: '#ffffff',
+      challenge: 'Necessidade de um portal institucional moderno que transmitisse o ambiente premium da academia, destacasse os diferenciais das modalidades e estimulasse visitantes a contratarem planos.',
+      solution: 'Criamos uma experiência web dinâmica com estética esportiva de alto impacto, seções estratégicas de apresentação de modalidades, grade de horários interativa e funil claro de contratação de matrículas.',
+      features: [
+        { title: 'Showcase de Modalidades', desc: 'Apresentação detalhada de musculação, funcional, dança e lutas.' },
+        { title: 'Tabela de Planos Interativa', desc: 'Comparativo visual de benefícios entre planos mensais e anuais.' },
+        { title: 'Microinterações & Animações', desc: 'Experiência fluida com alto engajamento visual e moderno.' },
+        { title: 'Integração de Contato Rápido', desc: 'Botões contextuais para suporte imediato e matrícula online.' }
+      ],
+      techStack: ['Next.js', 'React', 'TypeScript', 'TailwindCSS', 'Modern CSS Animations', 'Edge Hosting']
+    },
+    rezende: {
+      id: 'rezende',
+      title: 'Rezende Engenharia — Portal Captive & Segurança de Rede',
+      category: 'Cibersegurança & Redes Corporativas',
+      tagline: 'Implementação de infraestrutura de rede blindada e Portal Captive personalizado para controle de acesso seguro, autenticação corporativa e conformidade com a LGPD.',
+      url: 'https://www.instagram.com/rezende.energia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+      image: 'assets/portfolio-rezende.png?v=2',
+      imageFit: 'cover',
+      imageBg: '#0b1320',
+      challenge: 'A empresa necessitava organizar e blindar sua rede sem fio corporativa, garantindo que visitantes e colaboradores tivessem acessos devidamente autenticados, isolados e com total rastreabilidade jurídica conforme as exigências da LGPD e Marco Civil da Internet.',
+      solution: 'Projetamos e implementamos uma arquitetura de rede com Portal Captive corporativo customizado, com tela de autenticação institucional, segmentação de tráfego por VLANs, controle de banda por perfil de usuário e logs auditáveis de conexão.',
+      features: [
+        { title: 'Autenticação Captive Portal', desc: 'Tela de login segura e personalizada com termos de uso e aceite LGPD.' },
+        { title: 'Segmentação de Rede (VLANs)', desc: 'Isolamento total entre a rede interna corporativa e a rede de visitantes.' },
+        { title: 'Controle de Banda & QoS', desc: 'Priorização de tráfego para operações críticas e limitação de uso indevido.' },
+        { title: 'Auditoria & Logs de Acesso', desc: 'Registro seguro de conexões em conformidade com o Marco Civil e LGPD.' }
+      ],
+      techStack: ['Captive Portal', 'pfSense / NGFW', 'VLAN Segmentation', 'Network Security', 'LGPD Compliance', 'RADIUS / Auth']
+    }
+  };
+
+  const projectOrder = ['tamires', 'lanches', 'imperium', 'rezende'];
+  let currentProjectIndex = 0;
+
+  const projectModal = document.getElementById('projectModal');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalCategory = document.getElementById('modalCategory');
+  const modalProjectTitle = document.getElementById('modalProjectTitle');
+  const modalTagline = document.getElementById('modalTagline');
+  const modalBrowserUrl = document.getElementById('modalBrowserUrl');
+  const modalImage = document.getElementById('modalImage');
+  const modalMockupBody = document.getElementById('modalMockupBody');
+  const modalChallenge = document.getElementById('modalChallenge');
+  const modalSolution = document.getElementById('modalSolution');
+  const modalFeaturesList = document.getElementById('modalFeaturesList');
+  const modalTechStack = document.getElementById('modalTechStack');
+  const modalLiveBtn = document.getElementById('modalLiveBtn');
+  const modalCtaBtn = document.getElementById('modalCtaBtn');
+  const modalPrevProject = document.getElementById('modalPrevProject');
+  const modalNextProject = document.getElementById('modalNextProject');
+
+  const populateModal = (projectId) => {
+    const data = projectsData[projectId];
+    if (!data) return;
+
+    currentProjectIndex = projectOrder.indexOf(projectId);
+
+    modalCategory.textContent = data.category;
+    modalProjectTitle.textContent = data.title;
+    modalTagline.textContent = data.tagline;
+    modalBrowserUrl.textContent = data.url;
+    modalImage.src = data.image;
+    modalImage.alt = data.title;
+    modalImage.style.objectFit = data.imageFit || 'cover';
+    modalMockupBody.style.background = data.imageBg || '#0a0a0f';
+
+    modalChallenge.textContent = data.challenge;
+    modalSolution.textContent = data.solution;
+
+    // Render features
+    modalFeaturesList.innerHTML = data.features.map(f => `
+      <div class="feature-item">
+        <svg class="feature-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div class="feature-text">
+          <strong>${f.title}</strong>
+          <span>${f.desc}</span>
+        </div>
+      </div>
+    `).join('');
+
+    // Render tech stack
+    modalTechStack.innerHTML = data.techStack.map(tech => `
+      <span class="modal-tech-pill">${tech}</span>
+    `).join('');
+
+    // Update Action links
+    modalLiveBtn.href = data.url;
+    
+    // Customize CTA button click to scroll smoothly to contact & focus
+    modalCtaBtn.onclick = (e) => {
+      e.preventDefault();
+      closeModal();
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+  };
+
+  const openModal = (projectId) => {
+    populateModal(projectId);
+    projectModal.classList.add('active');
+    projectModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    projectModal.classList.remove('active');
+    projectModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  // Attach card click handlers
+  document.querySelectorAll('.portfolio-card[data-project]').forEach(card => {
+    card.addEventListener('click', () => {
+      const projId = card.getAttribute('data-project');
+      openModal(projId);
+    });
+
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const projId = card.getAttribute('data-project');
+        openModal(projId);
+      }
+    });
+  });
+
+  // Close triggers
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+  if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+
+  // Keyboard navigation & ESC
+  window.addEventListener('keydown', (e) => {
+    if (!projectModal || !projectModal.classList.contains('active')) return;
+
+    if (e.key === 'Escape') {
+      closeModal();
+    } else if (e.key === 'ArrowRight') {
+      currentProjectIndex = (currentProjectIndex + 1) % projectOrder.length;
+      populateModal(projectOrder[currentProjectIndex]);
+    } else if (e.key === 'ArrowLeft') {
+      currentProjectIndex = (currentProjectIndex - 1 + projectOrder.length) % projectOrder.length;
+      populateModal(projectOrder[currentProjectIndex]);
+    }
+  });
+
+  // Modal Next / Prev buttons
+  if (modalNextProject) {
+    modalNextProject.addEventListener('click', () => {
+      currentProjectIndex = (currentProjectIndex + 1) % projectOrder.length;
+      populateModal(projectOrder[currentProjectIndex]);
+    });
+  }
+
+  if (modalPrevProject) {
+    modalPrevProject.addEventListener('click', () => {
+      currentProjectIndex = (currentProjectIndex - 1 + projectOrder.length) % projectOrder.length;
+      populateModal(projectOrder[currentProjectIndex]);
+    });
+  }
+
 });
+

@@ -57,10 +57,12 @@
 
   <!-- ========== GLOBAL BACKGROUND ========== -->
   <div class="global-bg">
+    <div class="mouse-spotlight" id="mouseSpotlight"></div>
     <div class="hero-grid"></div>
     <div class="hero-orb hero-orb-1"></div>
     <div class="hero-orb hero-orb-2"></div>
     <div class="hero-orb hero-orb-3"></div>
+    <canvas id="ambientCanvas"></canvas>
     <div class="particles" id="particles"></div>
   </div>
 
@@ -240,62 +242,101 @@
       <div class="section-header">
         <span class="section-label reveal">Portfólio</span>
         <h2 class="section-title reveal">Projetos que geram impacto</h2>
-        <p class="section-subtitle reveal">Conheça alguns dos cases que desenvolvemos com excelência.</p>
+        <p class="section-subtitle reveal">Clique nos cases para explorar a arquitetura, demonstração e funcionalidades de cada sistema.</p>
       </div>
       <div class="portfolio-grid">
 
-        <a href="https://tm-fisioterapeuta.netlify.app/" target="_blank" rel="noopener noreferrer"
-          class="portfolio-card reveal">
-          <div class="portfolio-thumb" style="background:#fff;">
-            <img src="assets/portfolio-tamires.png?v=2" alt="Dra. Tamires Martins"
-              style="width:100%; height:100%; object-fit:contain;">
+        <!-- Case 1: Tamires -->
+        <article class="portfolio-card reveal" data-project="tamires" role="button" tabindex="0" aria-label="Ver case Dra. Tamires Martins">
+          <div class="portfolio-thumb" style="background:#ffffff;">
+            <img src="assets/portfolio-tamires.png?v=2" alt="Dra. Tamires Martins" style="object-fit:contain;">
+            <div class="portfolio-thumb-overlay">
+              <span class="portfolio-view-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Explorar Solução
+              </span>
+            </div>
           </div>
           <div class="portfolio-info">
-            <h3>Dra. Tamires Martins</h3>
-            <p>Plataforma web profissional para fisioterapia especializada, focada em conversão e agendamentos.</p>
-            <span class="portfolio-tag">Web / Saúde</span>
+            <div class="portfolio-info-header">
+              <h3>Dra. Tamires Martins</h3>
+            </div>
+            <p>Plataforma web médica de alta conversão, agendamentos automatizados e experiência focada no paciente.</p>
+            <div class="portfolio-footer">
+              <span class="portfolio-tag">Web / Saúde & Alta Conversão</span>
+              <span class="portfolio-explore-link">Ver Detalhes →</span>
+            </div>
           </div>
-        </a>
+        </article>
 
-        <a href="https://sistema-saa-s-lanches.vercel.app/" target="_blank" rel="noopener noreferrer"
-          class="portfolio-card reveal">
+        <!-- Case 2: SaaS Lanches ASL -->
+        <article class="portfolio-card reveal" data-project="lanches" role="button" tabindex="0" aria-label="Ver case SaaS Lanches ASL">
           <div class="portfolio-thumb">
-            <img src="assets/portfolio-lanches.png?v=2" alt="SaaS Lanches ASL"
-              style="width:100%; height:100%; object-fit:cover;">
+            <img src="assets/portfolio-lanches.png?v=2" alt="SaaS Lanches ASL" style="object-fit:cover;">
+            <div class="portfolio-thumb-overlay">
+              <span class="portfolio-view-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Explorar Solução
+              </span>
+            </div>
           </div>
           <div class="portfolio-info">
-            <h3>SaaS Lanches ASL</h3>
-            <p>Sistema completo de gestão para lanchonetes e delivery com cardápio digital, financeiro e pedidos em
-              tempo real.</p>
-            <span class="portfolio-tag">SaaS / Delivery</span>
+            <div class="portfolio-info-header">
+              <h3>SaaS Lanches ASL</h3>
+            </div>
+            <p>Sistema SaaS completo para delivery: cardápio digital dinâmico, fluxo de caixa e gestão em tempo real.</p>
+            <div class="portfolio-footer">
+              <span class="portfolio-tag">SaaS / Delivery & Gestão</span>
+              <span class="portfolio-explore-link">Ver Detalhes →</span>
+            </div>
           </div>
-        </a>
+        </article>
 
-        <a href="https://imperiumfitness.net.br/" target="_blank" rel="noopener noreferrer"
-          class="portfolio-card reveal">
-          <div class="portfolio-thumb" style="background:#fff;">
-            <img src="assets/portfolio-imperium.png?v=2" alt="Imperium Fitness"
-              style="width:100%; height:100%; object-fit:contain;">
+        <!-- Case 3: Imperium Fitness -->
+        <article class="portfolio-card reveal" data-project="imperium" role="button" tabindex="0" aria-label="Ver case Imperium Fitness">
+          <div class="portfolio-thumb" style="background:#ffffff;">
+            <img src="assets/portfolio-imperium.png?v=2" alt="Imperium Fitness" style="object-fit:contain;">
+            <div class="portfolio-thumb-overlay">
+              <span class="portfolio-view-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Explorar Solução
+              </span>
+            </div>
           </div>
           <div class="portfolio-info">
-            <h3>Imperium Fitness</h3>
-            <p>Presença web corporativa moderna com design premium e alta performance para o setor fitness.</p>
-            <span class="portfolio-tag">Web / Corporativo</span>
+            <div class="portfolio-info-header">
+              <h3>Imperium Fitness</h3>
+            </div>
+            <p>Portal web premium para centro de treinamento com visualização de modalidades, planos e conversão acelerada.</p>
+            <div class="portfolio-footer">
+              <span class="portfolio-tag">Web / Corporativo & Fitness</span>
+              <span class="portfolio-explore-link">Ver Detalhes →</span>
+            </div>
           </div>
-        </a>
+        </article>
 
-        <a href="https://www.instagram.com/rezende.energia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-          target="_blank" rel="noopener noreferrer" class="portfolio-card reveal">
-          <div class="portfolio-thumb" style="background:#fff;">
-            <img src="assets/portfolio-rezende.png?v=2" alt="Rezende Energia"
-              style="width:100%; height:100%; object-fit:cover;">
+        <!-- Case 4: Rezende Engenharia -->
+        <article class="portfolio-card reveal" data-project="rezende" role="button" tabindex="0" aria-label="Ver case Rezende Engenharia">
+          <div class="portfolio-thumb" style="background:#ffffff;">
+            <img src="assets/portfolio-rezende.png?v=2" alt="Rezende Engenharia" style="object-fit:cover;">
+            <div class="portfolio-thumb-overlay">
+              <span class="portfolio-view-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                Explorar Solução
+              </span>
+            </div>
           </div>
           <div class="portfolio-info">
-            <h3>Rezende Energia</h3>
-            <p>Infraestrutura tecnológica e plataforma web de gestão para o setor de energia e engenharia elétrica.</p>
-            <span class="portfolio-tag">SaaS / Engenharia</span>
+            <div class="portfolio-info-header">
+              <h3>Rezende Engenharia</h3>
+            </div>
+            <p>Implementação de Portal Captive corporativo com autenticação segura de rede, controle de acessos e conformidade LGPD.</p>
+            <div class="portfolio-footer">
+              <span class="portfolio-tag">Cibersegurança / Captive Portal</span>
+              <span class="portfolio-explore-link">Ver Detalhes →</span>
+            </div>
           </div>
-        </a>
+        </article>
 
       </div>
     </div>
@@ -513,6 +554,111 @@
       </div>
     </div>
   </footer>
+
+  <!-- ========== CASE STUDY MODAL ========== -->
+  <div class="project-modal" id="projectModal" aria-hidden="true" role="dialog" aria-labelledby="modalProjectTitle">
+    <div class="project-modal-backdrop" id="modalBackdrop"></div>
+    <div class="project-modal-container">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Fechar modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+
+      <!-- Modal Header -->
+      <div class="modal-hero">
+        <div class="modal-category-badge" id="modalCategory">SaaS / Web App</div>
+        <h2 class="modal-title" id="modalProjectTitle">Título do Projeto</h2>
+        <p class="modal-tagline" id="modalTagline">Descrição estratégica da plataforma desenvolvida.</p>
+      </div>
+
+      <!-- Browser Preview Mockup -->
+      <div class="modal-preview-wrapper">
+        <div class="browser-mockup">
+          <div class="browser-mockup-header">
+            <div class="browser-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="browser-address-bar">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span id="modalBrowserUrl">https://plataforma.twodevs.com.br</span>
+            </div>
+          </div>
+          <div class="browser-mockup-body" id="modalMockupBody">
+            <img src="" alt="Demonstração do Sistema" id="modalImage">
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Body (Problem, Solution, Features, Tech Stack) -->
+      <div class="modal-body">
+        <div class="modal-section-grid">
+          <!-- Desafio & Contexto -->
+          <div class="modal-card-block">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              O Desafio do Negócio
+            </h4>
+            <p id="modalChallenge">Explicação do desafio enfrentado pelo cliente.</p>
+          </div>
+
+          <!-- Solução TwoDevs -->
+          <div class="modal-card-block">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              A Solução TwoDevs
+            </h4>
+            <p id="modalSolution">Engenharia e arquitetura entregue.</p>
+          </div>
+        </div>
+
+        <!-- Principais Módulos / Funcionalidades -->
+        <div class="modal-card-block">
+          <h4>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+            Principais Módulos & Recursos
+          </h4>
+          <div class="features-list" id="modalFeaturesList">
+            <!-- Gerado via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Tecnologias Utilizadas -->
+        <div class="modal-card-block">
+          <h4>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Stack & Infraestrutura
+          </h4>
+          <div class="modal-tech-pills" id="modalTechStack">
+            <!-- Gerado via JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer (Navigation & External Links) -->
+      <div class="modal-footer">
+        <div class="modal-nav-arrows">
+          <button class="modal-nav-btn" id="modalPrevProject" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Case Anterior
+          </button>
+          <button class="modal-nav-btn" id="modalNextProject" type="button">
+            Próximo Case
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="modal-actions">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline" id="modalLiveBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Ver Demonstração Ao Vivo
+          </a>
+          <a href="#contact" class="btn btn-primary" id="modalCtaBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 16 16 12 12 8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Quero uma Solução Assim
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
